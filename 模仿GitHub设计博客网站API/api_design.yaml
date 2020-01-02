@@ -1,0 +1,82 @@
+# 假设通过 api.myblog.cn 访问
+
+# 注册
+'POST api.myblog.cn/users':
+  description: 注册用户
+
+  response:
+    201:
+      description: 注册成功
+    409:
+      description: 用户名冲突
+
+# 登录
+'POST api.myblog.cn':
+  description: 用户登录
+  request:
+    username,password
+
+  response:
+    201:
+      description: 登录成功
+    401:
+      description: 用户名或密码错误
+
+# 登出
+'DELETE api.myblog.cn':
+  description: 用户登出
+  response:
+    204:
+      description: 无论是否登录都返回登出成功
+
+# 发布博客
+'POST api.myblog.cn/blogs':
+  description: 发布新博客
+  user-role: 'Registered User'
+  response:
+    201:
+      description: 成功
+    403:
+      description: 失败，权限不足
+
+# 更新博客
+'PUT api.myblog.cn/blog/:blog_id':
+  description: 更新blog_id对应都博客
+  user-role: 'Blog Issuer'
+  response:
+    204:
+      description: 更新成功
+    403:
+      description: 失败，权限不足
+    404:
+      description: 失败，博客不存在
+  
+# 删除博客
+'DELETE api.myblog.cn/blog/:blog_id':
+  description: 删除blog_id对应的博客
+  user-role: 'Blog Issuer'
+  response:
+    204:
+      description: 删除成功
+    403:
+      description: 失败，权限不足
+    404:
+      description: 失败，博客不存在
+
+# 查询博客
+'GET api.myblog.cn/blog/:blog_id':
+  description: 获取blog_id对应的博客
+  response:
+    200:
+      description: 获取成功
+    404:
+      description: 失败，博客不存在
+
+# 查询博主的全部博客
+'GET api.myblog.cn/blogs':
+  description: 获取全部博客
+  queryParam:
+    blogger: 根据博主筛选博客
+  response:
+    200:
+      description: 获取成功
